@@ -1,18 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Parenting Assistant</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  document.documentElement.style.visibility = 'hidden';
+  fetch('/api/auth/me', { credentials: 'include' })
+    .then(response => response.ok ? response.json() : Promise.reject())
+    .then(user => {
+      if (user && user.parent) {
+        document.documentElement.style.visibility = 'visible';
+      } else {
+        window.location.replace('auth.html');
+      }
+    })
+    .catch(() => window.location.replace('auth.html'));
+</script>
 </head>
 <body>
-<header class="topbar"><div class="brand"><div class="logo">❤</div><div><strong>Smart Parenting</strong><span>Your family, smarter.</span></div></div><nav><a class="active" href="#home">Home</a><a href="#features">Features</a><a href="#about">About</a></nav><a class="profile" href="auth.html">👤 Login</a></header>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">❤</div>
+    <div>
+      <strong>Smart Parenting</strong>
+      <span>Your family, smarter.</span>
+    </div>
+  </div>
+  <nav>
+    <a class="active" href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+  </nav>
+  <a class="profile" href="dashboard.html">👤 My Space</a>
+</header>
+
 <main id="home">
-<section class="hero"><div class="hero-copy"><div class="pill">✨ AI-powered family care</div><h1>Parenting made <span>simpler.</span><br>Every day.</h1><p>One friendly place to manage your child's health, nutrition, development and your own wellbeing.</p><div class="actions"><a class="primary" href="auth.html">Login / Create account →</a><a class="secondary" href="#about">How it works</a></div><div class="trust"><span>✓ Child-first</span><span>✓ Private & secure</span><span>✓ Doctor-guided</span></div></div><div class="hero-card"><div class="sun">☀️</div><p>Your private family space</p><h3>Enter your details to get started</h3><div class="mini-grid"><div><b>👶</b><strong>Child profile</strong><small>Your data</small></div><div><b>🥗</b><strong>Nutrition</strong><small>Your plan</small></div><div><b>📏</b><strong>Growth</strong><small>Your records</small></div><div><b>🤱</b><strong>Wellness</strong><small>Your care</small></div></div></div></section>
-<section id="features" class="features"><div class="section-title"><span>EVERYTHING IN ONE PLACE</span><h2>Tools for a happier family</h2><p>Create an account and enter your family's real information to use these features.</p></div><div class="cards"><article><div class="icon pink">👶</div><h3>Child Growth</h3><p>Track height, weight, milestones and development.</p><a class="cards button" href="auth.html">Login to open →</a></article><article><div class="icon green">🥗</div><h3>Smart Nutrition</h3><p>Generate meal ideas only after entering the child's details.</p><a class="cards button" href="auth.html">Login to open →</a></article><article><div class="icon purple">💉</div><h3>Vaccinations</h3><p>Keep schedules, reminders and records organized.</p><a class="cards button" href="auth.html">Login to open →</a></article><article><div class="icon orange">😊</div><h3>Mood & Behavior</h3><p>A gentle daily check-in for your child's emotions.</p><a class="cards button" href="auth.html">Login to open →</a></article><article><div class="icon blue">🤱</div><h3>Mother Wellness</h3><p>Postpartum care, breastfeeding and self-care support.</p><a class="cards button" href="auth.html">Login to open →</a></article><article><div class="icon yellow">🧠</div><h3>Development</h3><p>Track activities from your child's actual progress.</p><a class="cards button" href="auth.html">Login to open →</a></article></div></section>
-<section class="daily"><div><span class="eyebrow">YOUR FAMILY DATA</span><h2>Nothing is pre-filled.</h2><p>Growth, nutrition and wellness values are based on information you enter and save. Demo health measurements are not used.</p></div><div class="progress"><div><span>Profile setup</span><b>0%</b></div><div class="bar"><i style="width:0%"></i></div><small>Complete your profile after login</small></div></section>
-<section id="about" class="about"><div class="about-icon">💗</div><div><span class="eyebrow">BUILT FOR PARENTS</span><h2>Helpful, not overwhelming.</h2><p>Smart Parenting Assistant brings the important things together without replacing professional medical advice. Sensitive health features use privacy controls and should be reviewed with qualified professionals when needed.</p></div></section>
-</main><footer><div>© 2026 Smart Parenting Assistant</div><div>Made with care for families 💗</div></footer><div id="toast"></div><script src="script.js"></script>
+<section class="hero">
+  <div class="hero-copy">
+    <div class="pill">✨ AI-powered family care</div>
+    <h1>Parenting made <span>simpler.</span><br>Every day.</h1>
+    <p>One friendly place to manage your child's health, nutrition, development and your own wellbeing.</p>
+    <div class="actions">
+      <a class="primary" href="dashboard.html">Open My Family Space →</a>
+      <a class="secondary" href="#about">How it works</a>
+    </div>
+    <div class="trust">
+      <span>✓ Child-first</span>
+      <span>✓ Private & secure</span>
+      <span>✓ Doctor-guided</span>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <div class="sun">☀️</div>
+    <p>Your private family space</p>
+    <h3>Your family's journey, all in one place</h3>
+    <div class="mini-grid">
+      <div><b>👶</b><strong>Child profile</strong><small>Your data</small></div>
+      <div><b>🥗</b><strong>Nutrition</strong><small>Your plan</small></div>
+      <div><b>📏</b><strong>Growth</strong><small>Your records</small></div>
+      <div><b>🤱</b><strong>Wellness</strong><small>Your care</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="section-title">
+    <span>EVERYTHING IN ONE PLACE</span>
+    <h2>Tools for a happier family</h2>
+    <p>Your saved family information powers each feature.</p>
+  </div>
+  <div class="cards">
+    <article><div class="icon pink">👶</div><h3>Child Growth</h3><p>Track height, weight, milestones and development.</p><a class="cards button" href="child.html">Open feature →</a></article>
+    <article><div class="icon green">🥗</div><h3>Smart Nutrition</h3><p>Create personalized meal ideas from your saved preferences.</p><a class="cards button" href="nutrition.html">Open feature →</a></article>
+    <article><div class="icon purple">💉</div><h3>Vaccinations</h3><p>Keep schedules, reminders and records organized.</p><a class="cards button" href="child.html">Open feature →</a></article>
+    <article><div class="icon orange">😊</div><h3>Mood & Behavior</h3><p>A gentle daily check-in for your child's emotions.</p><a class="cards button" href="child.html">Open feature →</a></article>
+    <article><div class="icon blue">🤱</div><h3>Mother Wellness</h3><p>Postpartum care, breastfeeding and self-care support.</p><a class="cards button" href="mother-wellness.html">Open feature →</a></article>
+    <article><div class="icon yellow">🧠</div><h3>Development</h3><p>Track activities from your child's actual progress.</p><a class="cards button" href="child.html">Open feature →</a></article>
+  </div>
+</section>
+
+<section class="daily">
+  <div>
+    <span class="eyebrow">YOUR FAMILY DATA</span>
+    <h2>Your private family dashboard.</h2>
+    <p>Everything is based on information you enter and save. Nothing is invented or pre-filled as a health measurement.</p>
+  </div>
+  <div class="progress">
+    <div><span>Profile setup</span><b>Ready</b></div>
+    <div class="bar"><i style="width:65%"></i></div>
+    <small>Update your family profile anytime</small>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="about-icon">💗</div>
+  <div>
+    <span class="eyebrow">BUILT FOR PARENTS</span>
+    <h2>Helpful, not overwhelming.</h2>
+    <p>Smart Parenting Assistant brings the important things together without replacing professional medical advice. Sensitive health features use privacy controls and should be reviewed with qualified professionals when needed.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div>© 2026 Smart Parenting Assistant</div>
+  <div>Made with care for families 💗</div>
+</footer>
+<div id="toast"></div>
+<script src="script.js"></script>
 </body>
 </html>
