@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Smart Parenting Assistant</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="intro-premium.css">
 </head>
 <body class="intro-page">
 <main class="intro" id="intro">
@@ -21,52 +22,33 @@
 
       <svg class="family-svg" viewBox="0 0 620 430" role="img" aria-label="A mother holding and gently rocking her baby">
         <defs>
-          <linearGradient id="momDress" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#f08aaa"/>
-            <stop offset="1" stop-color="#a92f5c"/>
-          </linearGradient>
-          <linearGradient id="babyBlanket" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#fff2f6"/>
-            <stop offset="1" stop-color="#f4b3c9"/>
-          </linearGradient>
-          <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#ffd8c8"/>
-            <stop offset="1" stop-color="#efb09f"/>
-          </linearGradient>
-          <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%">
-            <feGaussianBlur stdDeviation="12"/>
-          </filter>
+          <linearGradient id="momDress" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f08aaa"/><stop offset="1" stop-color="#a92f5c"/></linearGradient>
+          <linearGradient id="babyBlanket" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2f6"/><stop offset="1" stop-color="#f4b3c9"/></linearGradient>
+          <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd8c8"/><stop offset="1" stop-color="#efb09f"/></linearGradient>
+          <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur stdDeviation="12"/></filter>
         </defs>
 
         <ellipse class="svg-shadow" cx="315" cy="390" rx="170" ry="22"/>
 
-        <!-- Mother: head, hair and body -->
         <g class="mother-figure">
           <path class="mother-hair" d="M210 132c-7-61 26-99 82-100 62-2 91 43 72 103-7 21-22 38-42 47l-93-3c-11-13-17-29-19-47z"/>
           <ellipse class="mother-face" cx="287" cy="127" rx="51" ry="61" fill="url(#skin)"/>
           <path class="mother-front-hair" d="M238 119c2-52 32-78 73-72 30 4 48 25 52 53-20-20-43-28-66-23-19 4-35 18-59 42z"/>
-          <circle class="mother-eye" cx="269" cy="130" r="3.2"/>
-          <circle class="mother-eye" cx="306" cy="130" r="3.2"/>
+          <circle class="mother-eye" cx="269" cy="130" r="3.2"/><circle class="mother-eye" cx="306" cy="130" r="3.2"/>
           <path class="mother-smile" d="M278 151c8 7 17 7 25 0"/>
           <path class="mother-neck" d="M270 179v35h36v-35"/>
           <path class="mother-dress" d="M226 203c18-18 39-26 61-27 31 0 57 11 77 34l45 137H172l54-144z" fill="url(#momDress)"/>
           <path class="dress-detail" d="M268 204l22 37 23-37"/>
-
-          <!-- Back arm supporting baby -->
           <path class="mother-arm-back" d="M356 225c37 9 66 42 75 78 4 16-4 27-17 29-12 2-20-6-25-20-9-24-26-40-49-47z" fill="url(#skin)"/>
-
-          <!-- Front arm wrapped around baby -->
           <path class="mother-arm-front" d="M222 238c18 28 36 51 62 65 23 12 53 11 80-7l17 22c-34 29-72 35-108 19-31-14-53-40-72-68z" fill="url(#skin)"/>
           <circle class="mother-hand" cx="365" cy="292" r="15" fill="url(#skin)"/>
         </g>
 
-        <!-- Baby nestled against mother's chest -->
         <g class="baby-figure">
           <g class="baby-rock">
             <ellipse class="baby-head" cx="360" cy="217" rx="43" ry="40" fill="url(#skin)"/>
             <path class="baby-hair" d="M323 208c1-31 20-51 44-51 26 0 39 20 38 42-17-9-32-13-48-7-11 4-21 10-34 16z"/>
-            <circle class="baby-eye" cx="347" cy="218" r="3"/>
-            <circle class="baby-eye" cx="374" cy="218" r="3"/>
+            <circle class="baby-eye" cx="347" cy="218" r="3"/><circle class="baby-eye" cx="374" cy="218" r="3"/>
             <path class="baby-mouth" d="M354 232c6 5 11 5 16 0"/>
             <path class="baby-neck" d="M347 250v13h25v-13" fill="url(#skin)"/>
             <path class="baby-blanket" d="M326 254c24-16 58-12 79 8 18 17 24 44 21 76H285c1-39 14-68 41-84z" fill="url(#babyBlanket)"/>
@@ -75,9 +57,7 @@
           </g>
         </g>
 
-        <!-- Mother looking down toward baby -->
         <path class="connection-line" d="M320 174c20 18 31 29 42 38"/>
-
         <g class="floating-heart heart-a"><path d="M112 174c-15-14-39 7 0 38 39-31 15-52 0-38z"/></g>
         <g class="floating-heart heart-b"><path d="M481 137c-10-10-28 5 0 27 28-22 10-37 0-27z"/></g>
         <g class="floating-heart heart-c"><path d="M476 320c-8-8-22 4 0 21 22-17 8-29 0-21z"/></g>
