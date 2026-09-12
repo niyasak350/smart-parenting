@@ -1,0 +1,273 @@
+/* =====================================================
+   INTRO — MOTHER & BABY ANIMATION
+   A clear, warm visual story: mother holding her baby.
+===================================================== */
+
+.intro-page {
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 174, 199, .34), transparent 28%),
+    radial-gradient(circle at 15% 85%, rgba(166, 30, 77, .30), transparent 30%),
+    radial-gradient(circle at 90% 15%, rgba(238, 93, 145, .28), transparent 30%),
+    linear-gradient(145deg, #4b102d 0%, #741c46 45%, #c83f70 100%);
+}
+
+.intro-page .intro {
+  position: relative;
+  overflow: hidden;
+}
+
+.intro-page .scene {
+  position: relative;
+  z-index: 2;
+}
+
+.intro-page .badge {
+  background: rgba(255, 255, 255, .13);
+  border: 1px solid rgba(255, 255, 255, .26);
+  color: #fff6fa;
+  box-shadow: 0 12px 35px rgba(37, 5, 22, .22);
+  backdrop-filter: blur(12px);
+}
+
+.family-art {
+  width: min(620px, 88vw);
+  height: min(430px, 57vw);
+  min-height: 310px;
+  margin: 22px auto 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.art-halo {
+  position: absolute;
+  width: 390px;
+  height: 390px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 225, 235, .40), rgba(255, 168, 198, .08) 55%, transparent 72%);
+  filter: blur(2px);
+  animation: motherHalo 4s ease-in-out infinite;
+}
+
+.art-floor {
+  position: absolute;
+  bottom: 7%;
+  width: 360px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(35, 4, 20, .28);
+  filter: blur(12px);
+}
+
+.family-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  position: relative;
+  z-index: 3;
+  filter: drop-shadow(0 24px 25px rgba(34, 4, 20, .20));
+}
+
+.svg-shadow {
+  fill: rgba(36, 4, 20, .28);
+  filter: url(#softShadow);
+}
+
+.mother-figure {
+  transform-origin: 290px 250px;
+  animation: motherRock 3.8s ease-in-out infinite;
+}
+
+.mother-hair {
+  fill: #3b1725;
+}
+
+.mother-front-hair {
+  fill: #4b1a2c;
+}
+
+.mother-face {
+  stroke: rgba(118, 52, 57, .15);
+  stroke-width: 2;
+}
+
+.mother-eye,
+.baby-eye {
+  fill: #40202a;
+}
+
+.mother-smile,
+.baby-mouth {
+  fill: none;
+  stroke: #9c4d59;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.mother-neck {
+  fill: url(#skin);
+}
+
+.mother-dress {
+  stroke: rgba(91, 24, 53, .22);
+  stroke-width: 3;
+}
+
+.dress-detail {
+  fill: none;
+  stroke: rgba(255, 231, 239, .48);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.mother-arm-back,
+.mother-arm-front,
+.mother-hand {
+  stroke: rgba(124, 54, 59, .10);
+  stroke-width: 2;
+}
+
+.mother-arm-front {
+  transform-origin: 300px 285px;
+  animation: armHold 3.8s ease-in-out infinite;
+}
+
+.mother-hand {
+  animation: handBreath 3.8s ease-in-out infinite;
+}
+
+.baby-figure {
+  transform-origin: 360px 285px;
+  animation: babyRock 3.8s ease-in-out infinite;
+}
+
+.baby-hair {
+  fill: #563044;
+}
+
+.baby-blanket {
+  stroke: rgba(166, 30, 77, .13);
+  stroke-width: 3;
+}
+
+.blanket-fold {
+  fill: none;
+  stroke: rgba(173, 65, 101, .22);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.baby-hand {
+  stroke: rgba(124, 54, 59, .10);
+  stroke-width: 2;
+}
+
+.connection-line {
+  fill: none;
+  stroke: rgba(255, 229, 238, .45);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 4 8;
+  opacity: .65;
+}
+
+.floating-heart {
+  fill: #ffd5e2;
+  opacity: .85;
+  filter: drop-shadow(0 7px 10px rgba(49, 8, 28, .18));
+}
+
+.heart-a { animation: heartFloat 3.4s ease-in-out infinite; }
+.heart-b { animation: heartFloat 4.1s ease-in-out .5s infinite; }
+.heart-c { animation: heartFloat 3.7s ease-in-out 1s infinite; }
+
+.intro-page .title h1 {
+  color: #fff;
+  text-shadow: 0 10px 30px rgba(42, 5, 25, .24);
+}
+
+.intro-page .title h1 span {
+  color: #ffd2e0;
+}
+
+.intro-page .title p {
+  color: rgba(255, 240, 246, .86);
+}
+
+.intro-page .loading small {
+  color: rgba(255, 232, 240, .78);
+}
+
+.intro-page .loading .bar {
+  background: rgba(255, 255, 255, .16);
+}
+
+.intro-page .loading .bar i {
+  background: linear-gradient(90deg, #ffd0df, #fff);
+  box-shadow: 0 0 15px rgba(255, 210, 225, .55);
+}
+
+@keyframes motherRock {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-1.2deg) translateY(-2px); }
+  50% { transform: rotate(1.2deg) translateY(1px); }
+  75% { transform: rotate(-.6deg) translateY(-1px); }
+}
+
+@keyframes babyRock {
+  0%, 100% { transform: rotate(0deg) translate(0, 0); }
+  25% { transform: rotate(-1.8deg) translate(-2px, -2px); }
+  50% { transform: rotate(1.8deg) translate(3px, 1px); }
+  75% { transform: rotate(-.8deg) translate(-1px, -1px); }
+}
+
+@keyframes armHold {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-1deg); }
+}
+
+@keyframes handBreath {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-2px, -1px); }
+}
+
+@keyframes motherHalo {
+  0%, 100% { transform: scale(.98); opacity: .78; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes heartFloat {
+  0%, 100% { transform: translateY(5px) scale(.94); opacity: .65; }
+  50% { transform: translateY(-13px) scale(1.08); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .family-art {
+    width: 94vw;
+    height: 67vw;
+    min-height: 270px;
+    margin-top: 10px;
+  }
+
+  .art-halo {
+    width: 300px;
+    height: 300px;
+  }
+
+  .art-floor {
+    width: 250px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mother-figure,
+  .baby-figure,
+  .mother-arm-front,
+  .mother-hand,
+  .heart-a,
+  .heart-b,
+  .heart-c,
+  .art-halo {
+    animation: none;
+  }
+}
