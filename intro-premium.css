@@ -24,7 +24,7 @@
 .intro-page .badge {
   background: rgba(255, 255, 255, .13);
   border: 1px solid rgba(255, 255, 255, .26);
-  color: #fff6fa;
+  color: #520527;
   box-shadow: 0 12px 35px rgba(37, 5, 22, .22);
   backdrop-filter: blur(12px);
 }
@@ -99,7 +99,7 @@
 .mother-smile,
 .baby-mouth {
   fill: none;
-  stroke: #9c4d59;
+  stroke: #943f4c;
   stroke-width: 2.5;
   stroke-linecap: round;
 }
@@ -109,7 +109,7 @@
 }
 
 .mother-dress {
-  stroke: rgba(91, 24, 53, .22);
+  stroke: rgba(207, 31, 107, 0.22);
   stroke-width: 3;
 }
 
@@ -172,7 +172,7 @@
 }
 
 .floating-heart {
-  fill: #ffd5e2;
+  fill: #db0d0d;
   opacity: .85;
   filter: drop-shadow(0 7px 10px rgba(49, 8, 28, .18));
 }
@@ -182,20 +182,20 @@
 .heart-c { animation: heartFloat 3.7s ease-in-out 1s infinite; }
 
 .intro-page .title h1 {
-  color: #fff;
+  color: #a00e33;
   text-shadow: 0 10px 30px rgba(42, 5, 25, .24);
 }
 
 .intro-page .title h1 span {
-  color: #ffd2e0;
+  color: #0f0f0f;
 }
 
 .intro-page .title p {
-  color: rgba(255, 240, 246, .86);
+  color: rgba(105, 8, 47, 0.86);
 }
 
 .intro-page .loading small {
-  color: rgba(255, 232, 240, .78);
+  color: rgba(141, 8, 55, 0.78);
 }
 
 .intro-page .loading .bar {
@@ -203,8 +203,8 @@
 }
 
 .intro-page .loading .bar i {
-  background: linear-gradient(90deg, #ffd0df, #fff);
-  box-shadow: 0 0 15px rgba(255, 210, 225, .55);
+  background: linear-gradient(90deg, #aa073b, #cf0707);
+  box-shadow: 5 0 5px rgba(39, 37, 38, 0.55);
 }
 
 @keyframes motherRock {
