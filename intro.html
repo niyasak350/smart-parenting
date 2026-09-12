@@ -5,67 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Smart Parenting Assistant</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,sans-serif}
-.intro{width:100%;height:100vh;min-height:600px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#fff 0%,#fff4f8 35%,#f9dce8 100%);color:#493842}
-.glow{position:absolute;border-radius:50%;filter:blur(5px);animation:float 7s ease-in-out infinite}
-.g1{width:280px;height:280px;left:-110px;top:5%;background:rgba(229,138,170,.22)}
-.g2{width:360px;height:360px;right:-150px;bottom:-80px;background:rgba(201,102,136,.16);animation-delay:-2s}
-.g3{width:100px;height:100px;right:16%;top:9%;background:rgba(255,255,255,.8);animation-delay:-4s}
-.scene{position:relative;width:min(520px,88vw);height:650px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.badge{position:absolute;top:8px;left:50%;transform:translateX(-50%) translateY(-20px);padding:10px 17px;border-radius:99px;background:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.9);box-shadow:0 12px 35px rgba(201,102,136,.12);color:#c96688;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;opacity:0;animation:up .8s .2s forwards;white-space:nowrap}
-.illustration{width:360px;height:380px;position:relative;margin-top:25px;animation:illustrationIn 1.2s .25s cubic-bezier(.2,.8,.2,1) both}
-.mother{position:absolute;left:62px;bottom:20px;width:235px;height:290px;transform-origin:50% 90%;animation:rock 3.4s ease-in-out 1.5s infinite}
-.mother .hair{position:absolute;left:58px;top:5px;width:116px;height:145px;border-radius:60% 60% 48% 48%;background:#4d3035;box-shadow:0 8px 0 rgba(60,35,40,.06)}
-.mother .face{position:absolute;left:75px;top:25px;width:82px;height:94px;border-radius:48% 48% 45% 45%;background:#f2c4aa;z-index:2}
-.mother .face:before,.mother .face:after{content:"";position:absolute;top:45px;width:7px;height:7px;border-radius:50%;background:#493842}
-.mother .face:before{left:22px}.mother .face:after{right:22px}
-.mother .neck{position:absolute;left:99px;top:108px;width:35px;height:42px;background:#efb99e;border-radius:10px;z-index:1}
-.mother .body{position:absolute;left:35px;bottom:0;width:175px;height:190px;border-radius:85px 85px 30px 30px;background:linear-gradient(145deg,#e58aaa,#c96688);box-shadow:0 20px 40px rgba(201,102,136,.2)}
-.mother .arm{position:absolute;z-index:5;width:105px;height:30px;border-radius:30px;background:#f2c4aa;transform-origin:90% 50%}
-.mother .arm.a{left:45px;top:158px;transform:rotate(27deg)}
-.mother .arm.b{right:20px;top:171px;transform:rotate(150deg)}
-.baby{position:absolute;z-index:8;left:137px;bottom:83px;width:112px;height:155px;transform-origin:50% 90%;animation:babyBob 3.4s ease-in-out 1.5s infinite}
-.baby .blanket{position:absolute;left:0;bottom:0;width:112px;height:100px;border-radius:45px 45px 25px 25px;background:linear-gradient(145deg,#fff,#f7d8e5);box-shadow:0 12px 28px rgba(90,50,65,.12)}
-.baby .head{position:absolute;left:26px;top:8px;width:62px;height:65px;border-radius:50%;background:#f1c2a7;z-index:2}
-.baby .cap{position:absolute;left:21px;top:2px;width:72px;height:42px;border-radius:50% 50% 35% 35%;background:#c96688;z-index:3}
-.baby .eye{position:absolute;top:35px;width:5px;height:5px;border-radius:50%;background:#493842;z-index:4}.baby .e1{left:19px}.baby .e2{right:19px}
-.heart{position:absolute;z-index:10;color:#e58aaa;font-size:30px;filter:drop-shadow(0 7px 12px rgba(201,102,136,.18));opacity:0;animation:heart 2.8s ease-in-out 2s infinite}
-.h1{left:55px;top:110px}.h2{right:30px;top:145px;font-size:20px;animation-delay:2.7s}.h3{right:60px;top:65px;font-size:15px;animation-delay:3.2s}
-.shadow{position:absolute;bottom:35px;width:290px;height:32px;border-radius:50%;background:rgba(90,50,65,.10);filter:blur(10px);animation:shadow 3.4s ease-in-out 1.5s infinite}
-.title{margin-top:5px;text-align:center;opacity:0;animation:up .9s 1s forwards}
-.title h1{font-size:clamp(37px,7vw,58px);letter-spacing:-.05em;line-height:1;font-weight:800}.title h1 span{color:#c96688}.title p{margin-top:14px;color:#806d76;font-size:14px;line-height:1.6}
-.loading{position:absolute;bottom:20px;width:260px;text-align:center;opacity:0;animation:up .8s 1.35s forwards}.loading small{display:block;color:#806d76;font-size:10px;margin-bottom:8px}.bar{height:4px;background:rgba(201,102,136,.12);border-radius:99px;overflow:hidden}.bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,#e58aaa,#c96688);animation:progress 4s linear forwards}
-.fade{animation:fade .8s ease forwards}
-@keyframes rock{0%,100%{transform:rotate(-1deg) translateX(0)}50%{transform:rotate(2deg) translateX(7px)}}
-@keyframes babyBob{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(2deg) translateY(-5px)}}
-@keyframes shadow{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.92)}}
-@keyframes heart{0%{opacity:0;transform:translateY(12px) scale(.6)}35%,70%{opacity:1}100%{opacity:0;transform:translateY(-45px) scale(1.15)}}
-@keyframes illustrationIn{from{opacity:0;transform:translateY(35px) scale(.86)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes up{to{opacity:1;transform:translateX(-50%) translateY(0)}}
-@keyframes progress{to{width:100%}}
-@keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(18px,-24px,0)}}
-@keyframes fade{to{opacity:0;transform:scale(1.03)}}
-@media(max-width:600px){.scene{height:580px}.illustration{transform:scale(.78);margin-top:-10px}.title{margin-top:-35px}.title h1{font-size:38px}.title p{font-size:13px;max-width:300px;margin-left:auto;margin-right:auto}.loading{bottom:8px}.badge{top:0}}
+*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,sans-serif}.intro{width:100%;height:100vh;min-height:600px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#fff 0%,#fff4f8 35%,#f9dce8 100%);color:#493842}.glow{position:absolute;border-radius:50%;filter:blur(5px);animation:float 7s ease-in-out infinite}.g1{width:280px;height:280px;left:-110px;top:5%;background:rgba(229,138,170,.22)}.g2{width:360px;height:360px;right:-150px;bottom:-80px;background:rgba(201,102,136,.16);animation-delay:-2s}.g3{width:100px;height:100px;right:16%;top:9%;background:rgba(255,255,255,.8);animation-delay:-4s}.scene{position:relative;width:min(520px,88vw);height:650px;display:flex;flex-direction:column;align-items:center;justify-content:center}.badge{position:absolute;top:8px;left:50%;transform:translateX(-50%) translateY(-20px);padding:10px 17px;border-radius:99px;background:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.9);box-shadow:0 12px 35px rgba(201,102,136,.12);color:#c96688;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;opacity:0;animation:up .8s .2s forwards;white-space:nowrap}.illustration{width:360px;height:380px;position:relative;margin-top:25px;animation:illustrationIn 1.2s .25s cubic-bezier(.2,.8,.2,1) both}.mother{position:absolute;left:62px;bottom:20px;width:235px;height:290px;transform-origin:50% 90%;animation:rock 3.4s ease-in-out 1.5s infinite}.mother .hair{position:absolute;left:58px;top:5px;width:116px;height:145px;border-radius:60% 60% 48% 48%;background:#4d3035;box-shadow:0 8px 0 rgba(60,35,40,.06)}.mother .face{position:absolute;left:75px;top:25px;width:82px;height:94px;border-radius:48% 48% 45% 45%;background:#f2c4aa;z-index:2}.mother .face:before,.mother .face:after{content:"";position:absolute;top:45px;width:7px;height:7px;border-radius:50%;background:#493842}.mother .face:before{left:22px}.mother .face:after{right:22px}.mother .neck{position:absolute;left:99px;top:108px;width:35px;height:42px;background:#efb99e;border-radius:10px;z-index:1}.mother .body{position:absolute;left:35px;bottom:0;width:175px;height:190px;border-radius:85px 85px 30px 30px;background:linear-gradient(145deg,#e58aaa,#c96688);box-shadow:0 20px 40px rgba(201,102,136,.2)}.mother .arm{position:absolute;z-index:5;width:105px;height:30px;border-radius:30px;background:#f2c4aa;transform-origin:90% 50%}.mother .arm.a{left:45px;top:158px;transform:rotate(27deg)}.mother .arm.b{right:20px;top:171px;transform:rotate(150deg)}.baby{position:absolute;z-index:8;left:137px;bottom:83px;width:112px;height:155px;transform-origin:50% 90%;animation:babyBob 3.4s ease-in-out 1.5s infinite}.baby .blanket{position:absolute;left:0;bottom:0;width:112px;height:100px;border-radius:45px 45px 25px 25px;background:linear-gradient(145deg,#fff,#f7d8e5);box-shadow:0 12px 28px rgba(90,50,65,.12)}.baby .head{position:absolute;left:26px;top:8px;width:62px;height:65px;border-radius:50%;background:#f1c2a7;z-index:2}.baby .cap{position:absolute;left:21px;top:2px;width:72px;height:42px;border-radius:50% 50% 35% 35%;background:#c96688;z-index:3}.baby .eye{position:absolute;top:35px;width:5px;height:5px;border-radius:50%;background:#493842;z-index:4}.baby .e1{left:19px}.baby .e2{right:19px}.heart{position:absolute;z-index:10;color:#e58aaa;font-size:30px;filter:drop-shadow(0 7px 12px rgba(201,102,136,.18));opacity:0;animation:heart 2.8s ease-in-out 2s infinite}.h1{left:55px;top:110px}.h2{right:30px;top:145px;font-size:20px;animation-delay:2.7s}.h3{right:60px;top:65px;font-size:15px;animation-delay:3.2s}.shadow{position:absolute;bottom:35px;width:290px;height:32px;border-radius:50%;background:rgba(90,50,65,.10);filter:blur(10px);animation:shadow 3.4s ease-in-out 1.5s infinite}.title{margin-top:5px;text-align:center;opacity:0;animation:up .9s 1s forwards}.title h1{font-size:clamp(37px,7vw,58px);letter-spacing:-.05em;line-height:1;font-weight:800}.title h1 span{color:#c96688}.title p{margin-top:14px;color:#806d76;font-size:14px;line-height:1.6}.loading{position:absolute;bottom:20px;width:260px;text-align:center;opacity:0;animation:up .8s 1.35s forwards}.loading small{display:block;color:#806d76;font-size:10px;margin-bottom:8px}.bar{height:4px;background:rgba(201,102,136,.12);border-radius:99px;overflow:hidden}.bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,#e58aaa,#c96688);animation:progress 4s linear forwards}.fade{animation:fade .8s ease forwards}@keyframes rock{0%,100%{transform:rotate(-1deg) translateX(0)}50%{transform:rotate(2deg) translateX(7px)}}@keyframes babyBob{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(2deg) translateY(-5px)}}@keyframes shadow{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.92)}}@keyframes heart{0%{opacity:0;transform:translateY(12px) scale(.6)}35%,70%{opacity:1}100%{opacity:0;transform:translateY(-45px) scale(1.15)}}@keyframes illustrationIn{from{opacity:0;transform:translateY(35px) scale(.86)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes up{to{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes progress{to{width:100%}}@keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(18px,-24px,0)}}@keyframes fade{to{opacity:0;transform:scale(1.03)}}@media(max-width:600px){.scene{height:580px}.illustration{transform:scale(.78);margin-top:-10px}.title{margin-top:-35px}.title h1{font-size:38px}.title p{font-size:13px;max-width:300px;margin-left:auto;margin-right:auto}.loading{bottom:8px}.badge{top:0}}
 </style>
-</head>
-<body>
-<main class="intro" id="intro">
-<div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
-<section class="scene">
-<div class="badge">✦ AI-powered family care</div>
-<div class="illustration">
-<div class="shadow"></div>
-<div class="mother"><div class="hair"></div><div class="face"></div><div class="neck"></div><div class="body"></div><div class="arm a"></div><div class="arm b"></div></div>
-<div class="baby"><div class="head"></div><div class="cap"></div><div class="eye e1"></div><div class="eye e2"></div><div class="blanket"></div></div>
-<div class="heart h1">♥</div><div class="heart h2">♥</div><div class="heart h3">♥</div>
-</div>
-<div class="title"><h1>Growing with <span>love.</span></h1><p>Supporting mothers, nurturing children,<br>and bringing families closer.</p></div>
-<div class="loading"><small>Preparing your family space</small><div class="bar"><i></i></div></div>
-</section>
-</main>
-<script>
-setTimeout(()=>{document.getElementById('intro').classList.add('fade');setTimeout(()=>{location.replace('auth.html')},750)},4200);
-</script>
-</body>
-</html>
+</head><body><main class="intro" id="intro"><div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><section class="scene"><div class="badge">✦ AI-powered family care</div><div class="illustration"><div class="shadow"></div><div class="mother"><div class="hair"></div><div class="face"></div><div class="neck"></div><div class="body"></div><div class="arm a"></div><div class="arm b"></div></div><div class="baby"><div class="head"></div><div class="cap"></div><div class="eye e1"></div><div class="eye e2"></div><div class="blanket"></div></div><div class="heart h1">♥</div><div class="heart h2">♥</div><div class="heart h3">♥</div></div><div class="title"><h1>Growing with <span>love.</span></h1><p>Supporting mothers, nurturing children,<br>and bringing families closer.</p></div><div class="loading"><small>Preparing your family space</small><div class="bar"><i></i></div></div></section></main><script>
+const params=new URLSearchParams(location.search);
+const requested=params.get('next');
+const go=async()=>{let target=requested==='dashboard'?'dashboard.html':'auth.html';if(!requested){try{const r=await fetch('/api/auth/me',{credentials:'include'});if(r.ok)target='dashboard.html'}catch(e){}}document.getElementById('intro').classList.add('fade');setTimeout(()=>location.replace(target+'?intro=1'),750)};
+setTimeout(go,4200);
+</script></body></html>
