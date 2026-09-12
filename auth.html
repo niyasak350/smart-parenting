@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login | Smart Parenting Assistant</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.auth-wrap{min-height:calc(100vh - 90px);display:grid;place-items:center;padding:40px 18px;background:linear-gradient(135deg,#fff7fb,#f7f4ff)}
+.auth-card{width:min(520px,100%);background:#fff;border:1px solid #eee7f1;border-radius:28px;padding:30px;box-shadow:0 20px 60px rgba(65,30,80,.1)}
+.auth-brand{text-align:center;margin-bottom:24px}.auth-brand .logo{margin:auto}.auth-brand h1{margin:12px 0 6px}.auth-brand p{margin:0;color:#777}
+.tabs{display:flex;gap:8px;background:#f6f2f7;padding:5px;border-radius:14px;margin-bottom:22px}.tabs button{flex:1;border:0;background:transparent;padding:11px;border-radius:10px;font-weight:700;cursor:pointer}.tabs button.active{background:#fff;box-shadow:0 3px 12px #00000010}
+.auth-form{display:grid;gap:14px}.auth-form label{font-weight:700;font-size:14px}.auth-form input{display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:13px 14px;border:1px solid #ddd4e1;border-radius:12px;font:inherit}.auth-form input:focus{outline:2px solid #ead7f1;border-color:#b978ca}.auth-message{min-height:22px;text-align:center;font-size:14px;color:#7b527f}.hidden{display:none}.auth-note{font-size:12px;color:#777;text-align:center;margin-top:16px;line-height:1.5}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand"><div class="logo">❤</div><div><strong>Smart Parenting</strong><span>Your family, smarter.</span></div></div><a class="secondary" href="index.html">← Home</a></header>
+<main class="auth-wrap"><section class="auth-card">
+<div class="auth-brand"><div class="logo">❤</div><h1>Welcome to your family space</h1><p>Login or create a parent account to save your child's information.</p></div>
+<div class="tabs"><button id="loginTab" class="active" type="button">Login</button><button id="registerTab" type="button">Create account</button></div>
+<form id="loginForm" class="auth-form"><label>Email<input id="loginEmail" type="email" required autocomplete="email" placeholder="parent@example.com"></label><label>Password<input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Your password"></label><button class="primary" type="submit">Login</button></form>
+<form id="registerForm" class="auth-form hidden"><label>Parent name<input id="parentName" type="text" required maxlength="100" autocomplete="name" placeholder="Your name"></label><label>Email<input id="registerEmail" type="email" required maxlength="255" autocomplete="email" placeholder="parent@example.com"></label><label>Password<input id="registerPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></label><label>Child name<input id="childName" type="text" required maxlength="100" placeholder="Child's name"></label><label>Child date of birth <span style="font-weight:400">(optional)</span><input id="birthDate" type="date"></label><button class="primary" type="submit">Create account</button></form>
+<p id="authMessage" class="auth-message"></p><p class="auth-note">Your password is stored as a secure hash. Do not use the same password you use for important personal accounts.</p>
+</section></main>
+<script>
+const loginTab=document.getElementById('loginTab'),registerTab=document.getElementById('registerTab'),loginForm=document.getElementById('loginForm'),registerForm=document.getElementById('registerForm'),message=document.getElementById('authMessage');
+function show(mode){const login=mode==='login';loginTab.classList.toggle('active',login);registerTab.classList.toggle('active',!login);loginForm.classList.toggle('hidden',!login);registerForm.classList.toggle('hidden',login);message.textContent='';}
+loginTab.onclick=()=>show('login');registerTab.onclick=()=>show('register');
+async function send(url,payload){message.textContent='Please wait…';try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const d=await r.json();if(!r.ok)throw new Error(d.error||'Something went wrong');location.href='dashboard.html';}catch(e){message.textContent=e.message;}}
+loginForm.onsubmit=e=>{e.preventDefault();send('/api/auth/login',{email:loginEmail.value,password:loginPassword.value});};
+registerForm.onsubmit=e=>{e.preventDefault();send('/api/auth/register',{name:parentName.value,email:registerEmail.value,password:registerPassword.value,childName:childName.value,birthDate:birthDate.value||null});};
+fetch('/api/auth/me').then(r=>{if(r.ok)location.href='dashboard.html';}).catch(()=>{});
+</script>
+</body></html>
