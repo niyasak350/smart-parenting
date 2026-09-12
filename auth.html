@@ -1,33 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login | Smart Parenting Assistant</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.auth-wrap{min-height:calc(100vh - 90px);display:grid;place-items:center;padding:40px 18px;background:linear-gradient(135deg,#fff7fb,#f7f4ff)}
-.auth-card{width:min(520px,100%);background:#fff;border:1px solid #eee7f1;border-radius:28px;padding:30px;box-shadow:0 20px 60px rgba(65,30,80,.1)}
-.auth-brand{text-align:center;margin-bottom:24px}.auth-brand .logo{margin:auto}.auth-brand h1{margin:12px 0 6px}.auth-brand p{margin:0;color:#777}
-.tabs{display:flex;gap:8px;background:#f6f2f7;padding:5px;border-radius:14px;margin-bottom:22px}.tabs button{flex:1;border:0;background:transparent;padding:11px;border-radius:10px;font-weight:700;cursor:pointer}.tabs button.active{background:#fff;box-shadow:0 3px 12px #00000010}
-.auth-form{display:grid;gap:14px}.auth-form label{font-weight:700;font-size:14px}.auth-form input{display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:13px 14px;border:1px solid #ddd4e1;border-radius:12px;font:inherit}.auth-form input:focus{outline:2px solid #ead7f1;border-color:#b978ca}.auth-message{min-height:22px;text-align:center;font-size:14px;color:#7b527f}.hidden{display:none}.auth-note{font-size:12px;color:#777;text-align:center;margin-top:16px;line-height:1.5}
+:root{--green:#3e9d67;--green-dark:#2f7950;--navy:#30445b;--muted:#718096;--soft:#edf7ef}
+*{box-sizing:border-box}
+body.auth-page{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--navy);background:#f8fbf8;overflow-x:hidden}
+.auth-page .topbar{height:76px;background:rgba(255,255,255,.88);border-bottom:1px solid rgba(54,105,76,.08);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,7vw,110px);position:relative;z-index:5;backdrop-filter:blur(16px)}
+.auth-page .brand{display:flex;align-items:center;gap:12px}.auth-page .brand .logo{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#35a66a,#8dbd67);color:white;font-size:23px;box-shadow:0 8px 22px rgba(55,150,93,.22)}
+.auth-page .brand strong{display:block;font-size:21px;line-height:1;font-weight:800;letter-spacing:-.4px}.auth-page .brand strong::first-letter{color:#2f7e55}.auth-page .brand span{display:block;margin-top:5px;color:#7b8a98;font-size:11px;letter-spacing:.2px}
+.home-link{color:#3d8060;text-decoration:none;font-weight:700;font-size:14px;padding:10px 16px;border:1px solid #d9e9dd;border-radius:12px;background:#fff}.home-link:hover{background:#f2f9f3}
+.auth-wrap{min-height:calc(100vh - 76px);position:relative;display:flex;align-items:center;padding:48px clamp(20px,7vw,110px);isolation:isolate;overflow:hidden;background:radial-gradient(circle at 76% 42%,rgba(218,241,222,.82),transparent 34%),linear-gradient(120deg,#fff 0%,#fbfdfb 52%,#eef8f0 100%)}
+.auth-wrap:before{content:"";position:absolute;z-index:-2;width:620px;height:620px;left:-230px;bottom:-280px;border-radius:50%;background:#e8f5e9}.auth-wrap:after{content:"";position:absolute;z-index:-2;width:510px;height:510px;right:-210px;top:-210px;border-radius:50%;background:#e7f4e9}
+.leaf{position:absolute;z-index:-1;opacity:.7;color:#4d9d62;font-size:70px;transform:rotate(28deg)}.leaf.one{right:30px;top:15px}.leaf.two{left:5px;bottom:20px;transform:rotate(-35deg);font-size:64px}
+.auth-grid{width:min(1180px,100%);margin:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,7vw,100px);align-items:center}
+.hero-copy{padding:20px 0 40px}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #b9dfc5;background:#f3faf4;border-radius:999px;color:#3f8b5e;font-size:13px;font-weight:700;box-shadow:0 5px 18px rgba(55,128,80,.06)}
+.hero-copy h1{font-size:clamp(42px,5vw,66px);line-height:1.02;letter-spacing:-2.5px;margin:25px 0 18px;color:#30445b}.hero-copy h1 span{display:block;color:#399362}.hero-copy>p{max-width:520px;color:#718096;font-size:17px;line-height:1.7;margin:0 0 28px}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:560px}.benefit{text-align:center}.benefit-icon{width:56px;height:56px;margin:0 auto 9px;border-radius:50%;display:grid;place-items:center;font-size:25px;background:#e8f5e9;box-shadow:inset 0 0 0 1px rgba(63,139,94,.08)}.benefit:nth-child(2) .benefit-icon{background:#fff1cf}.benefit:nth-child(3) .benefit-icon{background:#f1e8ff}.benefit:nth-child(4) .benefit-icon{background:#e3f1ff}.benefit strong{display:block;font-size:13px;color:#40566b}.benefit small{display:block;color:#8795a3;font-size:11px;margin-top:3px}
+.auth-card{width:min(500px,100%);justify-self:end;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.9);border-radius:30px;padding:42px 46px;box-shadow:0 28px 80px rgba(47,91,65,.14),0 4px 18px rgba(47,91,65,.05);backdrop-filter:blur(18px)}
+.auth-brand{text-align:center}.auth-brand .logo{width:62px;height:62px;margin:0 auto 15px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(145deg,#399d68,#8dbb68);color:#fff;font-size:31px;box-shadow:0 12px 28px rgba(53,151,94,.2)}.auth-brand h2{margin:0;font-size:30px;letter-spacing:-1px;color:#30445b}.auth-brand p{margin:7px 0 27px;color:#82909f;font-size:14px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;background:#f1f5f2;border-radius:13px;margin-bottom:23px}.tabs button{border:0;background:transparent;color:#718096;padding:11px;border-radius:9px;font-weight:750;font-size:14px;cursor:pointer}.tabs button.active{background:#fff;color:#34885a;box-shadow:0 3px 12px rgba(38,75,51,.08)}
+.auth-form{display:grid;gap:15px}.auth-form label{font-size:13px;font-weight:750;color:#43586c}.auth-form input{width:100%;height:54px;margin-top:8px;padding:0 16px;border:1px solid #dce5e0;border-radius:14px;background:#fff;color:#30445b;font:inherit;font-size:14px;transition:.2s}.auth-form input::placeholder{color:#a0acb7}.auth-form input:focus{outline:none;border-color:#64ad80;box-shadow:0 0 0 4px rgba(76,164,104,.11)}
+.primary{height:55px;border:0;border-radius:15px;background:linear-gradient(135deg,#48a56c,#36945f);color:#fff;font:inherit;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 12px 24px rgba(54,148,95,.22);transition:transform .2s,box-shadow .2s}.primary:hover{transform:translateY(-1px);box-shadow:0 15px 28px rgba(54,148,95,.28)}
+.auth-message{min-height:20px;margin:13px 0 0;text-align:center;color:#bd5a5a;font-size:13px}.hidden{display:none}.auth-note{text-align:center;color:#9aa5ae;font-size:11px;line-height:1.5;margin:18px 0 0}.form-divider{display:flex;align-items:center;gap:12px;color:#98a3ad;font-size:12px;margin:18px 0}.form-divider:before,.form-divider:after{content:"";height:1px;background:#e6ece8;flex:1}
+@media(max-width:900px){.auth-grid{grid-template-columns:1fr;max-width:650px}.hero-copy{text-align:center;padding-bottom:5px}.hero-copy>p{margin-left:auto;margin-right:auto}.benefits{margin:auto}.auth-card{justify-self:center}.auth-wrap{padding-top:30px}}
+@media(max-width:560px){.auth-page .topbar{height:68px;padding:0 16px}.auth-page .brand strong{font-size:18px}.auth-page .brand span{font-size:9px}.home-link{font-size:12px;padding:8px 11px}.auth-wrap{min-height:calc(100vh - 68px);padding:25px 15px 40px}.hero-copy{padding:5px 0 25px}.hero-copy h1{font-size:39px;letter-spacing:-1.8px;margin-top:18px}.hero-copy>p{font-size:15px}.benefits{gap:5px}.benefit-icon{width:46px;height:46px;font-size:20px}.benefit strong{font-size:11px}.benefit small{font-size:9px}.auth-card{padding:30px 21px;border-radius:24px}.auth-brand h2{font-size:26px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="brand"><div class="logo">❤</div><div><strong>Smart Parenting</strong><span>Your family, smarter.</span></div></div><a class="secondary" href="index.html">← Home</a></header>
-<main class="auth-wrap"><section class="auth-card">
-<div class="auth-brand"><div class="logo">❤</div><h1>Welcome to your family space</h1><p>Login or create a parent account to save your child's information.</p></div>
-<div class="tabs"><button id="loginTab" class="active" type="button">Login</button><button id="registerTab" type="button">Create account</button></div>
-<form id="loginForm" class="auth-form"><label>Email<input id="loginEmail" type="email" required autocomplete="email" placeholder="parent@example.com"></label><label>Password<input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Your password"></label><button class="primary" type="submit">Login</button></form>
-<form id="registerForm" class="auth-form hidden"><label>Parent name<input id="parentName" type="text" required maxlength="100" autocomplete="name" placeholder="Your name"></label><label>Email<input id="registerEmail" type="email" required maxlength="255" autocomplete="email" placeholder="parent@example.com"></label><label>Password<input id="registerPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></label><label>Child name<input id="childName" type="text" required maxlength="100" placeholder="Child's name"></label><label>Child date of birth <span style="font-weight:400">(optional)</span><input id="birthDate" type="date"></label><button class="primary" type="submit">Create account</button></form>
-<p id="authMessage" class="auth-message"></p><p class="auth-note">Your password is stored as a secure hash. Do not use the same password you use for important personal accounts.</p>
-</section></main>
+<body class="auth-page">
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">♥</div>
+    <div><strong>Smart <span style="display:inline;color:#399362;font-size:inherit">Parenting</span></strong><span>Healthier Kids&nbsp; • &nbsp;Happier Tomorrow</span></div>
+  </div>
+  <a class="home-link" href="index.html">← Home</a>
+</header>
+
+<main class="auth-wrap">
+  <div class="leaf one">❧</div><div class="leaf two">❧</div>
+  <div class="auth-grid">
+    <section class="hero-copy">
+      <div class="eyebrow">🌿 Your Child's Health, Our Priority</div>
+      <h1>Smart Care Today,<span>Brighter Future</span></h1>
+      <p>Track your child's growth, nutrition, mood, sleep and more — all in one private and caring space.</p>
+      <div class="benefits">
+        <div class="benefit"><div class="benefit-icon">📏</div><strong>Growth</strong><small>Track Progress</small></div>
+        <div class="benefit"><div class="benefit-icon">🍴</div><strong>Nutrition</strong><small>Better Choices</small></div>
+        <div class="benefit"><div class="benefit-icon">☺</div><strong>Mood</strong><small>More Smiles</small></div>
+        <div class="benefit"><div class="benefit-icon">🌙</div><strong>Sleep</strong><small>Healthy Rest</small></div>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <div class="auth-brand">
+        <div class="logo">♥</div>
+        <h2>Welcome Back!</h2>
+        <p>Login to your account to continue</p>
+      </div>
+      <div class="tabs"><button id="loginTab" class="active" type="button">Login</button><button id="registerTab" type="button">Create Account</button></div>
+
+      <form id="loginForm" class="auth-form">
+        <label>Email address<input id="loginEmail" type="email" required autocomplete="email" placeholder="Email address"></label>
+        <label>Password<input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Password"></label>
+        <button class="primary" type="submit">Login&nbsp; →</button>
+      </form>
+
+      <form id="registerForm" class="auth-form hidden">
+        <label>Parent name<input id="parentName" type="text" required maxlength="100" autocomplete="name" placeholder="Your name"></label>
+        <label>Email address<input id="registerEmail" type="email" required maxlength="255" autocomplete="email" placeholder="Email address"></label>
+        <label>Password<input id="registerPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></label>
+        <label>Child name<input id="childName" type="text" required maxlength="100" placeholder="Child's name"></label>
+        <label>Child date of birth <span style="font-weight:400;color:#8996a1">(optional)</span><input id="birthDate" type="date"></label>
+        <button class="primary" type="submit">Create Account&nbsp; →</button>
+      </form>
+
+      <p id="authMessage" class="auth-message"></p>
+      <p class="auth-note">Your account keeps your family information private. Never reuse an important personal password.</p>
+    </section>
+  </div>
+</main>
+
 <script>
-const loginTab=document.getElementById('loginTab'),registerTab=document.getElementById('registerTab'),loginForm=document.getElementById('loginForm'),registerForm=document.getElementById('registerForm'),message=document.getElementById('authMessage');
+const loginTab=document.getElementById('loginTab');
+const registerTab=document.getElementById('registerTab');
+const loginForm=document.getElementById('loginForm');
+const registerForm=document.getElementById('registerForm');
+const message=document.getElementById('authMessage');
 function show(mode){const login=mode==='login';loginTab.classList.toggle('active',login);registerTab.classList.toggle('active',!login);loginForm.classList.toggle('hidden',!login);registerForm.classList.toggle('hidden',login);message.textContent='';}
-loginTab.onclick=()=>show('login');registerTab.onclick=()=>show('register');
-async function send(url,payload){message.textContent='Please wait…';try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const d=await r.json();if(!r.ok)throw new Error(d.error||'Something went wrong');location.href='dashboard.html';}catch(e){message.textContent=e.message;}}
-loginForm.onsubmit=e=>{e.preventDefault();send('/api/auth/login',{email:loginEmail.value,password:loginPassword.value});};
-registerForm.onsubmit=e=>{e.preventDefault();send('/api/auth/register',{name:parentName.value,email:registerEmail.value,password:registerPassword.value,childName:childName.value,birthDate:birthDate.value||null});};
+loginTab.onclick=()=>show('login');
+registerTab.onclick=()=>show('register');
+async function send(url,payload){message.style.color='#718096';message.textContent='Please wait…';try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const d=await r.json();if(!r.ok)throw new Error(d.error||'Something went wrong');location.href='dashboard.html';}catch(e){message.style.color='#bd5a5a';message.textContent=e.message;}}
+loginForm.onsubmit=e=>{e.preventDefault();send('/api/auth/login',{email:loginEmail.value.trim(),password:loginPassword.value});};
+registerForm.onsubmit=e=>{e.preventDefault();send('/api/auth/register',{name:parentName.value.trim(),email:registerEmail.value.trim(),password:registerPassword.value,childName:childName.value.trim(),birthDate:birthDate.value||null});};
 fetch('/api/auth/me').then(r=>{if(r.ok)location.href='dashboard.html';}).catch(()=>{});
 </script>
-</body></html>
+</body>
+</html>
