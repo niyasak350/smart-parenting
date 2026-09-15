@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin | Smart Parenting Assistant</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-page">
+<header class="topbar admin-topbar">
+  <div class="brand"><div class="logo">♥</div><div><strong>Smart <span>Parenting</span></strong><span>Administration</span></div></div>
+  <button id="logoutBtn" class="admin-logout">Logout</button>
+</header>
+<main class="admin-shell">
+  <section id="loginPanel" class="admin-login-card">
+    <div class="admin-icon">⚙</div>
+    <p class="admin-kicker">SECURE ADMIN AREA</p>
+    <h1>Admin Dashboard</h1>
+    <p>Manage and review Smart Parenting platform data.</p>
+    <form id="adminLoginForm">
+      <label>Email address<input id="adminEmail" type="email" required placeholder="Admin email"></label>
+      <label>Password<input id="adminPassword" type="password" required placeholder="Admin password"></label>
+      <button class="primary" type="submit">Login as Admin →</button>
+      <p id="loginMessage" class="admin-message"></p>
+    </form>
+  </section>
+
+  <section id="dashboardPanel" class="admin-dashboard" hidden>
+    <div class="admin-heading"><div><p class="admin-kicker">OVERVIEW</p><h1>Family Data Dashboard</h1><p>Read-only administration view for platform records.</p></div><button id="refreshBtn" class="admin-refresh">↻ Refresh</button></div>
+    <div id="statGrid" class="admin-stats"></div>
+    <div class="admin-card">
+      <div class="admin-card-head"><h2>Registered Parents</h2><span id="userCount"></span></div>
+      <div class="table-wrap"><table><thead><tr><th>Parent</th><th>Email</th><th>Child</th><th>Date joined</th><th></th></tr></thead><tbody id="usersBody"></tbody></table></div>
+    </div>
+    <div id="detailCard" class="admin-card detail-card" hidden></div>
+  </section>
+</main>
+<script>
+const loginPanel=document.getElementById('loginPanel'),dashboardPanel=document.getElementById('dashboardPanel'),msg=document.getElementById('loginMessage');
+async function api(url,options={}){const r=await fetch(url,{credentials:'include',...options});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Request failed');return d}
+function showDashboard(){loginPanel.hidden=true;dashboardPanel.hidden=false;loadDashboard()}
+async function check(){try{await api('/api/admin/me');showDashboard()}catch{loginPanel.hidden=false;dashboardPanel.hidden=true}}
+async function loadDashboard(){try{const [s,u]=await Promise.all([api('/api/admin/stats'),api('/api/admin/users')]);document.getElementById('statGrid').innerHTML=[['Parents',s.parents,'👨‍👩‍👧'],['Children',s.children,'👶'],['Growth',s.growth,'📈'],['Mood',s.moods,'☺'],['Vaccinations',s.vaccinations,'💉'],['Mother wellness',s.wellness,'♥'],['Nutrition',s.nutrition,'🥗']].map(x=>`<div class="stat"><span>${x[2]}</span><strong>${x[1]}</strong><small>${x[0]}</small></div>`).join('');document.getElementById('userCount').textContent=`${u.users.length} accounts`;document.getElementById('usersBody').innerHTML=u.users.length?u.users.map(x=>`<tr><td><strong>${escapeHtml(x.name)}</strong></td><td>${escapeHtml(x.email)}</td><td>${escapeHtml(x.childName||'—')}</td><td>${new Date(x.createdAt).toLocaleDateString()}</td><td><button class="view-btn" onclick="viewUser(${x.id})">View</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty">No registered parents yet.</td></tr>'}catch(e){alert(e.message)}}
+async function viewUser(id){const d=await api('/api/admin/user/'+id);const p=d.parent;document.getElementById('detailCard').hidden=false;document.getElementById('detailCard').innerHTML=`<div class="admin-card-head"><h2>${escapeHtml(p.name)}</h2><button class="view-btn" onclick="document.getElementById('detailCard').hidden=true">Close</button></div><p><strong>Email:</strong> ${escapeHtml(p.email)}</p><h3>Children</h3>${d.children.map(c=>`<div class="detail-row"><strong>${escapeHtml(c.name)}</strong><span>DOB: ${c.birthDate?new Date(c.birthDate).toLocaleDateString():'Not provided'}</span><span>Allergies: ${escapeHtml(c.allergies||'Not recorded')}</span></div>`).join('')||'<p>No child records.</p>'}<h3>Mother wellness records</h3>${d.wellness.map(w=>`<div class="detail-row"><strong>${new Date(w.recordDate).toLocaleDateString()}</strong><span>Mood: ${escapeHtml(w.mood||'—')}</span><span>Sleep: ${w.sleepHours??'—'} h</span><span>Water: ${w.waterGlasses??'—'}</span></div>`).join('')||'<p>No wellness records.</p>'}`;document.getElementById('detailCard').scrollIntoView({behavior:'smooth',block:'start'})}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+document.getElementById('adminLoginForm').onsubmit=async e=>{e.preventDefault();msg.textContent='Checking…';try{await api('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:adminEmail.value.trim(),password:adminPassword.value})});showDashboard()}catch(e){msg.textContent=e.message}};
+document.getElementById('refreshBtn').onclick=loadDashboard;
+document.getElementById('logoutBtn').onclick=async()=>{await api('/api/admin/logout',{method:'POST'}).catch(()=>{});location.reload()};
+check();
+</script>
+</body>
+</html>
