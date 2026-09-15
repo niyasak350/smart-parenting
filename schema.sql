@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS mood_records (
 
 CREATE TABLE IF NOT EXISTS nutrition_preferences (
   child_id BIGINT UNSIGNED PRIMARY KEY,
-  preference VARCHAR(50) NOT NULL DEFAULT 'All foods',
+  age_group VARCHAR(30) NULL,
+  food_preference VARCHAR(50) NULL,
+  preference VARCHAR(50) NULL DEFAULT 'All foods',
   foods_to_avoid TEXT NULL,
   water_goal TINYINT UNSIGNED NOT NULL DEFAULT 6,
   CONSTRAINT fk_nutrition_child FOREIGN KEY (child_id) REFERENCES children(id) ON DELETE CASCADE
@@ -71,6 +73,7 @@ CREATE TABLE IF NOT EXISTS mother_wellness (
   self_care_count TINYINT UNSIGNED NULL,
   note VARCHAR(500) NULL,
   CONSTRAINT fk_wellness_parent FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
+  UNIQUE KEY uq_wellness_parent_date (parent_id, record_date),
   INDEX idx_wellness_parent_date (parent_id, record_date)
 );
 
