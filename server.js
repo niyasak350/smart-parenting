@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const SESSION_DAYS = Math.max(1, Number(process.env.SESSION_DAYS || 7));
 const COOKIE_NAME = 'spa_session';
+const ADMIN_COOKIE = 'spa_admin';
 
 app.use(express.json({ limit: '20kb' }));
 app.use(express.static(path.join(__dirname)));
@@ -65,6 +66,27 @@ async function requireAuth(req, res, next) {
     console.error(e);
     res.status(500).json({ error: 'Could not check your login session.' });
   }
+}
+
+function adminToken() {
+  const secret = process.env.ADMIN_SECRET;
+  const email = process.env.ADMIN_EMAIL;
+  if (!secret || !email) return null;
+  return crypto.createHmac('sha256', secret).update(email).digest('hex');
+}
+function setAdminCookie(res) {
+  const token = adminToken();
+  if (!token) return false;
+  res.setHeader('Set-Cookie', `${ADMIN_COOKIE}=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400${process.env.NODE_ENV === 'production' ? '; Secure' : ''}`);
+  return true;
+}
+function requireAdmin(req, res, next) {
+  const token = getCookie(req, ADMIN_COOKIE);
+  const expected = adminToken();
+  if (!expected || !token || !crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected))) {
+    return res.status(401).json({ error: 'Admin login required.' });
+  }
+  next();
 }
 
 app.post('/api/auth/register', async (req, res) => {
@@ -213,6 +235,53 @@ app.put('/api/profile/wellness', requireAuth, async (req, res) => {
       ON DUPLICATE KEY UPDATE mood=VALUES(mood),sleep_hours=VALUES(sleep_hours),water_glasses=VALUES(water_glasses),self_care_count=VALUES(self_care_count),note=VALUES(note)`, [req.user.id, recordDate || null, mood || null, sleep, water, selfCare, note || null]);
     res.json({ message: 'Wellness check-in saved.' });
   } catch (e) { console.error(e); res.status(500).json({ error: 'Could not save wellness data.' }); }
+});
+
+app.post('/api/admin/login', async (req, res) => {
+  const { email, password } = req.body || {};
+  const adminEmail = String(process.env.ADMIN_EMAIL || '').trim().toLowerCase();
+  const adminPassword = String(process.env.ADMIN_PASSWORD || '');
+  if (!adminEmail || !adminPassword || !process.env.ADMIN_SECRET) return res.status(503).json({ error: 'Admin credentials are not configured on the server.' });
+  if (String(email || '').trim().toLowerCase() !== adminEmail || String(password || '') !== adminPassword) return res.status(401).json({ error: 'Incorrect admin email or password.' });
+  setAdminCookie(res);
+  res.json({ message: 'Admin logged in.' });
+});
+app.post('/api/admin/logout', (req, res) => {
+  res.setHeader('Set-Cookie', `${ADMIN_COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`);
+  res.json({ message: 'Admin logged out.' });
+});
+app.get('/api/admin/me', requireAdmin, (req, res) => {
+  res.json({ email: process.env.ADMIN_EMAIL });
+});
+app.get('/api/admin/stats', requireAdmin, async (req, res) => {
+  try {
+    const [[parents]] = await db.query('SELECT COUNT(*) AS count FROM parents');
+    const [[children]] = await db.query('SELECT COUNT(*) AS count FROM children');
+    const [[growth]] = await db.query('SELECT COUNT(*) AS count FROM growth_records');
+    const [[moods]] = await db.query('SELECT COUNT(*) AS count FROM mood_records');
+    const [[vaccinations]] = await db.query('SELECT COUNT(*) AS count FROM vaccinations');
+    const [[wellness]] = await db.query('SELECT COUNT(*) AS count FROM mother_wellness');
+    const [[nutrition]] = await db.query('SELECT COUNT(*) AS count FROM nutrition_preferences');
+    res.json({ parents: parents.count, children: children.count, growth: growth.count, moods: moods.count, vaccinations: vaccinations.count, wellness: wellness.count, nutrition: nutrition.count });
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Could not load admin statistics.' }); }
+});
+app.get('/api/admin/users', requireAdmin, async (req, res) => {
+  try {
+    const [rows] = await db.query(`SELECT p.id,p.name,p.email,p.created_at AS createdAt,c.name AS childName,c.birth_date AS birthDate
+      FROM parents p LEFT JOIN children c ON c.parent_id=p.id ORDER BY p.created_at DESC`);
+    res.json({ users: rows });
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Could not load users.' }); }
+});
+app.get('/api/admin/user/:id', requireAdmin, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id < 1) return res.status(400).json({ error: 'Invalid user.' });
+  try {
+    const [[parent]] = await db.query('SELECT id,name,email,created_at AS createdAt FROM parents WHERE id=? LIMIT 1', [id]);
+    if (!parent) return res.status(404).json({ error: 'User not found.' });
+    const [children] = await db.query('SELECT id,name,birth_date AS birthDate,allergies FROM children WHERE parent_id=?', [id]);
+    const [wellness] = await db.query('SELECT record_date AS recordDate,mood,sleep_hours AS sleepHours,water_glasses AS waterGlasses,self_care_count AS selfCareCount,note FROM mother_wellness WHERE parent_id=? ORDER BY record_date DESC', [id]);
+    res.json({ parent, children, wellness });
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Could not load user details.' }); }
 });
 
 app.post('/api/chat', async (req, res) => {
